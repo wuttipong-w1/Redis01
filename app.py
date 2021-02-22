@@ -5,8 +5,8 @@ from flask import Flask,request,jsonify
 
 app = Flask(__name__)
 db = redis.StrictRedis(
-        host='node9161-advweb-23.app.ruk-com.cloud',
-        port=11149,
+        host='10.100.2.138',
+        port=6379,
         password='APPatn99455',
         decode_responses=True
         )
