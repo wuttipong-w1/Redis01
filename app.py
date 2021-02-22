@@ -5,8 +5,8 @@ from flask import Flask,request,jsonify
 
 app = Flask(__name__)
 db = redis.StrictRedis(
-        host='10.100.2.138',
-        port=6379,
+        host='node9161-advweb-23.app.ruk-com.cloud',
+        port=11149,
         password='APPatn99455',
         decode_responses=True
         )
@@ -32,7 +32,7 @@ def get_key(Key):
 @app.route('/<Key>',methods=['DELETE'])
 def DELETE_key(Key):
     result = db.delete(Key)
-    return jsonify(result)
+    return "Delete_Car"
 
  # Post Key
 @app.route('/Car',methods=['POST'])
@@ -56,7 +56,7 @@ def PUT_key(Key):
     brand = request.json['brand']
     price = request.json['price']
 
-    data = {"Key":Key, "name":name, "brand":brand, "price":price}
+    data = {"name":name, "brand":brand, "price":price}
 
     db.hmset(Key,data)
     return jsonify(data)
@@ -73,5 +73,5 @@ def PUT_key(Key):
 #     return 'Name updated.'
 
 if __name__ == '__main__':
-    #app.run()
-    app.run(host='0.0.0.0', port=80)
+    app.run()
+    #app.run(host='0.0.0.0', port=80)
