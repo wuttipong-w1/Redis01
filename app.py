@@ -14,25 +14,25 @@ db = redis.StrictRedis(
 #show key
 @app.route('/',methods=['GET'])
 def Show_keys():
-    name=db.keys()#ข้อมูลจากkey
-    name.sort()#เรียงข้อมูล
+    data=db.keys()#ข้อมูลจากkey
+    data.sort()#เรียงข้อมูล
     req = []
-    for i in name :
-        req.append(db.hgetall(i))
+    for k in data :
+        req.append(db.hgetall(k))
     return jsonify(req)
 
 
 # Get Single Key
 @app.route('/<Key>',methods=['GET'])
-def Show_key(Key):
-    req = db.hgetall(Key)
-    return jsonify(req)
+def get_key(Key):
+    result = db.hgetall(Key)
+    return jsonify(result)
 
 # DELETE Key
 @app.route('/<Key>',methods=['DELETE'])
 def DELETE_key(Key):
-    req = db.delete(Key)
-    return "DELETE"
+    result = db.delete(Key)
+    return jsonify(result)
 
  # Post Key
 @app.route('/Car',methods=['POST'])
@@ -42,11 +42,11 @@ def Post_key():
     brand = request.json['brand']
     price = request.json['price']
 
-    user = {"ID":ID, "name":name, "brand":brand, "price":price}
+    data = {"ID":ID, "name":name, "brand":brand, "price":price}
 
-    db.hmset(ID,user)
+    db.hmset(ID,data)
     
-    return jsonify(user)
+    return jsonify(data)
 
 # update Key
 @app.route('/Car/<Key>',methods=['PUT'])
@@ -56,10 +56,10 @@ def PUT_key(Key):
     brand = request.json['brand']
     price = request.json['price']
 
-    user = {"Key":Key, "name":name, "brand":brand, "price":price}
+    data = {"Key":Key, "name":name, "brand":brand, "price":price}
 
-    db.hmset(Key,user)
-    return jsonify(user)
+    db.hmset(Key,data)
+    return jsonify(data)
 
 # @app.route('/')
 # def hello_world():
@@ -73,4 +73,5 @@ def PUT_key(Key):
 #     return 'Name updated.'
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80)
+    app.run()
+   # app.run(host='0.0.0.0', port=80)
