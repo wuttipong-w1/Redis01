@@ -6,8 +6,8 @@ from flask_marshmallow import Marshmallow
 app = Flask(__name__)
 
 #Database
-#app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://webadmin:AOSnqn31435@node8612-advweb-23.app.ruk-com.cloud:11105/CloudDB"
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://webadmin:AOSnqn31435@10.100.2.209/CloudDB"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://webadmin:AOSnqn31435@node8612-advweb-23.app.ruk-com.cloud:11105/CloudDB"
+#app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://webadmin:AOSnqn31435@10.100.2.209/CloudDB"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] =False
 #Init db
 db = SQLAlchemy(app)
@@ -44,52 +44,40 @@ def get_staffs():
     return jsonify(result)
 
 
+class type(db.Model):
+    id = db.Column(db.String(13), primary_key=True, unique=True)
+    name = db.Column(db.String(50))
+    id_type = db.Column(db.String(50))
+
+    
+    def __init__(self, id, name, id_type):
+        self.id = id
+        self.name = name
+        self.id_type = id_type
+  
+
+# Staff Schema
+class typeSchema(ma.Schema):
+    class Meta:
+        fields =('id', 'name', 'id_type')
+
+# Init Schema 
+type_schema = typeSchema()
+types_schema = typeSchema(many=True)
+
+# Get All Staffs
+@app.route('/type', methods=['GET'])
+def get_typesssss():
+    s = type.query.all()
+    result = types_schema.dump(s)
+    return jsonify(result)
+
+
 # Get Single Staff
-@app.route('/car/<id>', methods=['GET'])
-def get_staff(id):
-    car = car.query.get(id)
-    return car_schema.jsonify(car)
-
-# Create a Staff
-@app.route('/staff', methods=['POST'])
-def add_staff():
-    id = request.json['id']
-    name = request.json['name']
-    email = request.json['email']
-    phone = request.json['phone']
-
-    new_staff = Staffs(id, name, email, phone)
-
-    db.session.add(new_staff)
-    db.session.commit()
-
-    return staff_schema.jsonify(new_staff)
-
-# Update a Staff
-@app.route('/staff/<id>', methods=['PUT'])
-def update_staff(id):
-    staff = Staffs.query.get(id)
-    
-    name = request.json['name']
-    email = request.json['email']
-    phone = request.json['phone']
-
-    staff.name = name
-    staff.email = email
-    staff.phone = phone
-
-    db.session.commit()
-
-    return staff_schema.jsonify(staff)
-
-# Delete Staff
-@app.route('/staff/<id>', methods=['DELETE'])
-def delete_staff(id):
-    staff = Staffs.query.get(id)
-    db.session.delete(staff)
-    db.session.commit()
-    
-    return staff_schema.jsonify(staff)
+@app.route('/type/<id>', methods=['GET'])
+def get_type(id):
+    s = type.query.get(id)
+    return car_schema.jsonify(s)
 
 # Web Root Hello
 @app.route('/', methods=['GET'])
