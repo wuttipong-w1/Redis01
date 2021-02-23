@@ -61,16 +61,11 @@ def PUT_key(Key):  # ทำการสร้างฟังก์ชัน Post
     db.hmset(Key,data) # เก็บข้อมูล data ให้ Key ชี้ไปเราต้องการ
     return jsonify(data) # ทำการสั่งค่ากลับ
 
-# @app.route('/')
-# def hello_world():
-#     name=db.get('name') or'World'
-#     return 'Hello %s!' % name
-
-#update ชื่อ
-# @app.route('/setname/<name>')
-# def setname(name):
-#     db.set('name',name)
-#     return 'Name updated.'
+# # Get Single Key แสดงข้อมูลที่ละข้อมูล
+# @app.route('/<Key>',methods=['GET']) # รับค่า Key
+# def get_key(Key): #ทำการสร้างฟังก์ชัน get_key 
+#     result = db.hmget(Key) # แสดงข้อมูลทั้งหมดใน Key ที่เราจะเลือกดู 
+#     return jsonify(result) # ทำการสั่งค่ากลับ
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)
