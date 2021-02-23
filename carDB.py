@@ -43,46 +43,10 @@ def get_staffs():
     result = cars_schema.dump(all_car)
     return jsonify(result)
 
-
-class type(db.Model):
-    id = db.Column(db.String(13), primary_key=True, unique=True)
-    name = db.Column(db.String(50))
-    id_type = db.Column(db.String(50))
-
-    
-    def __init__(self, id, name, id_type):
-        self.id = id
-        self.name = name
-        self.id_type = id_type
-  
-
-# Staff Schema
-class typeSchema(ma.Schema):
-    class Meta:
-        fields =('id', 'name', 'id_type')
-
-# Init Schema 
-type_schema = typeSchema()
-types_schema = typeSchema(many=True)
-
-# Get All Staffs
-@app.route('/type', methods=['GET'])
-def get_typesssss():
-    s = type.query.all()
-    result = types_schema.dump(s)
-    return jsonify(result)
-
-
-# Get Single Staff
-@app.route('/type/<id>', methods=['GET'])
-def get_type(id):
-    s = type.query.get(id)
-    return car_schema.jsonify(s)
-
 # Web Root Hello
 @app.route('/', methods=['GET'])
 def get():
-    return jsonify({'ms': 'Hello Cloud DB1'})
+    return jsonify({'ms': 'Hello Cloud '})
 
 # Run Server
 if __name__ == "__main__":
