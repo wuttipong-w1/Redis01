@@ -16,21 +16,19 @@ ma = Marshmallow(app)
 
 #Staff Class/Model
 class car(db.Model):
-    id = db.Column(db.String(13), primary_key=True, unique=True)
+    id = db.Column(db.String(20), primary_key=True, unique=True)
     name = db.Column(db.String(50))
-    brand = db.Column(db.String(25))
-    price = db.Column(db.String(10))
+    price = db.Column(db.String(50))
     
-    def __init__(self, id, name, brand, price):
+    def __init__(self, id, name, price):
         self.id = id
         self.name = name
-        self.brand = brand
         self.price = price
 
 # Staff Schema
 class CarSchema(ma.Schema):
     class Meta:
-        fields =('id', 'name', 'brand', 'price')
+        fields =('id', 'name', 'price')
 
 # Init Schema 
 car_schema = CarSchema()
